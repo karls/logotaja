@@ -1,22 +1,37 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "Logotaja",
+  "version": "0.0.1",
+  "description": "An application for watermarking images.",
   "main": "main.js",
+  "build": {
+    "appId": "com.lvm.Logotaja",
+    "nodeGypRebuild": true,
+    "mac": {
+      "category": "public.app-category.utilities"
+    }
+  },
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "watermark",
+    "image",
+    "logo"
   ],
-  "author": "GitHub",
+  "author": "Karl Sutt",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^1.4.1"
-  }
+    "electron": "^1.4.1",
+    "electron-packager": "^8.5.0",
+    "electron-rebuild": "^1.5.6"
+  },
+  "dependencies": {
+    "electron": "^1.4.14",
+    "sharp": "^0.17.1",
+    "underscore": "^1.8.3"
+  },
+  "postinstall": "install-app-deps"
 }

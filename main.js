@@ -3,9 +3,35 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+const Menu = electron.Menu
 
 const path = require('path')
 const url = require('url')
+
+const template = [
+  {
+    label: 'View',
+    submenu: [
+      {
+        role: 'reload'
+      },
+      {
+        role: 'toggledevtools'
+      }
+    ]
+  }
+]
+
+if (process.platform === 'darwin') {
+  template.unshift({
+    label: app.getName(),
+    submenu: [
+      {
+        role: 'quit'
+      }
+    ]
+  });
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -13,7 +39,11 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 400, height: 300,
+                                  minWidth: 400, minHeight: 300,
+                                  // maxWidth: 400, maxHeight: 290
+                                  devTools: true
+                                 })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -22,8 +52,7 @@ function createWindow () {
     slashes: true
   }))
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -32,6 +61,9 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
 }
 
 // This method will be called when Electron has finished
@@ -43,9 +75,9 @@ app.on('ready', createWindow)
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+  // if (process.platform !== 'darwin') {
+  app.quit()
+  // }
 })
 
 app.on('activate', function () {
