@@ -39,10 +39,11 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 400, height: 300,
-                                  minWidth: 400, minHeight: 300,
+  mainWindow = new BrowserWindow({width: 400, height: 320,
+                                  minWidth: 400, minHeight: 320,
                                   // maxWidth: 400, maxHeight: 290
-                                  devTools: true
+                                  devTools: true,
+                                  icon: __dirname + "/assets/icons/icon.png"
                                  })
 
   // and load the index.html of the app.
