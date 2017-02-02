@@ -45,12 +45,16 @@ function handleFileSelection () {
 };
 
 function pasteLogo (image) {
-  var metadata = image.metadata().then(function(md) { return md; })
-  if (metadata.width > metadata.height) {
-    return image.overlayWith(layers['logo-landscape'], {top: 0, left: 750});
-  } else {
-    return image.overlayWith(layers['logo-portrait'], {top: 0, left: 468});
-  }
+  image.metadata().then(function(metadata) {
+    console.log(metadata);
+    if (metadata.width > metadata.height) {
+      return image.overlayWith(layers['logo-landscape'], {top: 0, left: 750});
+    } else {
+      return image.overlayWith(layers['logo-portrait'], {top: 0, left: 468});
+    }
+  }).then(function (i) {
+    return i;
+  });
 };
 
 function writeImage(imageInfo) {
@@ -60,7 +64,6 @@ function writeImage(imageInfo) {
   var dir = path.dirname(p);
   var base = path.basename(imageInfo[0], ext);
   var to = path.join(dir, base + "-logo") + ext;
-  var metadata = image.metadata().then(function (md) { return md; });
   return image.jpeg({quality: 100}).webp({quality: 100}).tiff({quality: 100}).toFile(to);
 };
 
@@ -72,9 +75,11 @@ function convertImages () {
 
   toggleProgressSpinner();
   convertButton.disabled = true;
-  images = _.map(files, function (f) { return [f.path, sharp(f.path)]; });
-  images = _.map(images, function(i) { return [i[0], pasteLogo(i[1])]; });
-  var processes = _.map(images, writeImage);
+  // images = _.map(files, function (f) { return [f.path, sharp(f.path)]; });
+  // images = _.map(images, function(i) { return [i[0], pasteLogo(i[1])]; });
+  // console.log(images);
+  // var processes = _.map(images, writeImage);
+  var processes = _.map(files, process);
   Promise.all(processes).then(function (values) {
     updateStatus(values.length + " pilti logotatud!");
     toggleProgressSpinner();
@@ -83,6 +88,30 @@ function convertImages () {
        updateStatus("Midagi läks valesti. Mõni pilt jäi logotamata!");
        toggleProgressSpinner();
      });
+};
+
+function process(file) {
+  var filePath = file.path;
+  const image = sharp(filePath);
+
+  image.metadata().then(function(metadata) {
+    console.log(filePath, metadata);
+    if (metadata.width > metadata.height) {
+      return image.overlayWith(layers['logo-landscape'], {top: 0, left: 750});
+    } else {
+      return image.overlayWith(layers['logo-portrait'], {top: 0, left: 468});
+    }
+  }).then(function(newImage) {
+    var ext = path.extname(filePath);
+    var dir = path.dirname(filePath);
+    var base = path.basename(filePath, ext);
+    var to = path.join(dir, base + "-logo") + ext;
+    return newImage.
+      jpeg({quality: 100}).
+      webp({quality: 100}).
+      tiff({quality: 100}).
+      toFile(to);
+  });
 };
 
 function toggleProgressSpinner () {
