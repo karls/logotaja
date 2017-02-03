@@ -13,7 +13,7 @@
   "scripts": {
     "start": "electron .",
     "build-mac": "electron-packager . --platfrom=darwin --arch=x64 --asar --prune --overwrite --out=dist --icon=assets/icons/icon-mac.icns",
-    "build-win": "electron-packager . --platform=win32 --arch=x64 --asar --prune --overwrite --out=dist --icon=assets/icons/icon-win.ico"
+    "build-win": "electron-packager . --platform=win32 --arch=ia32 --asar --prune --overwrite --out=dist --icon=assets/icons/icon-win.ico"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
