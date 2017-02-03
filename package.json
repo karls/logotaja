@@ -13,7 +13,7 @@
   "scripts": {
     "start": "electron .",
     "build-mac": "electron-packager . --platfrom=darwin --arch=x64 --prune --overwrite --out=dist --icon=assets/icons/icon-mac.icns",
-    "build-win": "electron-packager . --platform=win32 --arch=x64 --prune --overwrite --out=dist --icon=assets/icons/icon-win.ico"
+    "build-win": "electron-packager . --platform=win32 --arch=x64 --ignore=Output --prune --overwrite --out=dist --icon=assets/icons/icon-win.ico"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -24,7 +24,6 @@
   "author": "Karl Sutt",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^1.4.1",
     "electron-packager": "^8.5.0",
     "electron-rebuild": "^1.5.6"
   },
