@@ -43,7 +43,7 @@ function createWindow () {
                                   minWidth: 400, minHeight: 320,
                                   // maxWidth: 400, maxHeight: 290
                                   devTools: true,
-                                  icon: __dirname + "/assets/icons/icon.png"
+                                  icon: path.join(__dirname, "assets/icons/icon-win.ico")
                                  })
 
   // and load the index.html of the app.
