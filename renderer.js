@@ -97,9 +97,13 @@ function process(file) {
   image.metadata().then(function(metadata) {
     console.log(filePath, metadata);
     if (metadata.width > metadata.height) {
-      return image.overlayWith(layers['logo-landscape'], {top: 0, left: 750});
+      return image
+             .resize(1000, null, {})
+             .overlayWith(layers['logo-landscape'], {top: 0, left: 750});
     } else {
-      return image.overlayWith(layers['logo-portrait'], {top: 0, left: 468});
+      return image
+             .resize(null, 1000, {})
+             .overlayWith(layers['logo-portrait'], {top: 0, left: 468});
     }
   }).then(function(newImage) {
     var ext = path.extname(filePath);
